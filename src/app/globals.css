@@ -1,40 +1,84 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* 1. Design Tokens & CSS Variables */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors dari Figma */
+  --background: #050505;
+  --foreground: #ffffff;
+  --card-bg: #121212;
+  --card-border: rgba(255, 255, 255, 0.1);
   
-  /* Design System Colors - Tambahkan warna sesuai kebutuhan dari Figma */
-  /* Contoh struktur warna yang bisa digunakan */
-  --color-purple-500: #a855f7;
-  --color-purple-600: #9333ea;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-500: #6b7280;
-  --color-gray-600: #4b5563;
-  --color-gray-900: #111827;
+  /* Brand Colors */
+  --primary-purple: #A855F7;
+  --primary-pink: #EC4899;
+  --zinc-500: #71717a;
+  --zinc-800: #27272a;
+
+  /* Shadow Glow (Playing State) */
+  --purple-glow: 0px 20px 60px rgba(168, 85, 247, 0.25);
+  --default-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  
-  /* Custom spacing dengan 1px ratio (1:1 bukan 1:4) */
-  /* p-1 = 1px, p-4 = 4px, p-16 = 16px */
-  /* Spacing sudah dikonfigurasi di tailwind.config.ts */
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 2. Base Reset */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif; /* Pastikan font sesuai Figma */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; /* Mencegah scrollbar yang merusak layout 500x350 */
 }
+
+/* 3. Layout Utilities */
+@layer base {
+  /* Memastikan main container selalu di tengah */
+  main {
+    @apply flex min-h-screen items-center justify-center;
+  }
+}
+
+/* 4. Custom Component Classes (Optional but helpful) */
+@layer components {
+  .music-player-container {
+    width: 500px;
+    height: 350px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 32px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 32px; /* 1:1 ratio */
+  }
+
+  /* Animasi Spinner Loading Custom */
+  .loader-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+  }
+}
+
+/* 5. Typography Fixes */
+/* Mengingat Anda menggunakan ratio 1:1, pastikan line-height juga terkontrol */
+h2, p {
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* 6. Tailwind Custom Spacing Bridge */
+/* Ini membantu jika ada utility yang belum ter-cover oleh config */
+.p-32 { padding: 32px; }
+.gap-24 { gap: 24px; }
+.rounded-32 { border-radius: 32px; }
